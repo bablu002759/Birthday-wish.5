@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Wish</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .card, .gift-box, .wish-box {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 350px;
+    }
+
+    .hidden { display: none; }
+
+    button {
+      background: #ff6f61;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .gift-icon {
+      font-size: 100px;
+      cursor: pointer;
+      animation: bounce 1s infinite alternate;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="card" class="card">
+    <h2>Wish someone Happy Birthday</h2>
+    <input type="text" id="nameInput" placeholder="Enter name" />
+    <button onclick="generateLink()">Generate Link</button>
+    <div id="generatedLink" class="hidden">
+      <p>Click below to view wish:</p>
+      <a id="wishLink" href="#">Open Gift</a>
+    </div>
+  </div>
+
+  <div id="gift" class="gift-box hidden">
+    <div class="gift-icon" onclick="openWish()">
+      🎁
+    </div>
+    <p>Click the gift to open!</p>
+  </div>
+
+  <div id="wish" class="wish-box hidden">
+    <h2>🎉 Happy Birthday <span id="recipientName"></span>! 🎉</h2>
+    <p>Happy Birthday to my officially licensed jogra partner! 😜</p>
+    <p>Tui chara amar kunu din complete lage na — jogra kori, abar ek second e mishi jai.</p>
+    <p>Tui jate sobsomoy ourokom baje bokhos, kintu bhalo o bashish! 😂</p>
+    <p>May your day be full of cake, gifts, and no fight with me (at least today)! 💝</p>
+  </div>
+
+  <script>
+    function generateLink() {
+      const name = document.getElementById('nameInput').value.trim();
+      if (name) {
+        const encoded = encodeURIComponent(name);
+        const link = `${location.origin}${location.pathname}?name=${encoded}`;
+        document.getElementById('wishLink').href = link;
+        document.getElementById('generatedLink').classList.remove('hidden');
+      }
+    }
+
+    function openWish() {
+      document.getElementById('gift').classList.add('hidden');
+      document.getElementById('wish').classList.remove('hidden');
+    }
+
+    window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const name = urlParams.get('name');
+      if (name) {
+        document.getElementById('card').classList.add('hidden');
+        document.getElementById('gift').classList.remove('hidden');
+        document.getElementById('recipientName').innerText = decodeURIComponent(name);
+      }
+    };
+  </script>
+
+</body>
+</html
