@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Wish</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+    }
+    input {
+      padding: 10px;
+      width: 80%;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    button {
+      background-color: #ff7f50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .hidden {
+      display: none;
+    }
+    .wish-box img {
+      width: 100%;
+      border-radius: 15px;
+      margin-bottom: 15px;
+    }
+    .message-line {
+      opacity: 0;
+      transform: translateX(50px);
+      animation: slideIn 0.5s ease forwards;
+    }
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div id="inputSection">
+      <h2>Enter Name to Generate Wish</h2>
+      <input type="text" id="nameInput" placeholder="Enter name" />
+      <br />
+      <button onclick="generateLink()">Generate Link</button>
+      <div id="generatedLink" class="hidden" style="margin-top: 15px;">
+        <a id="wishLink" href="#" target="_blank">Click to open wish</a>
+      </div>
+    </div>
+
+    <div id="wish" class="wish-box hidden">
+      <img src="https://chat.openai.com/share-image/9f06a3bc-c726-4cfd-a670-0ae4318dc1d2" alt="Birthday Girl" />
+      <h2 id="nameTitle"></h2>
+      <div id="message"></div>
+    </div>
+  </div>
+
+  <script>
+    function generateLink() {
+      const name = document.getElementById('nameInput').value.trim();
+      if (name) {
+        const encoded = encodeURIComponent(name);
+        const base = window.location.href.split('?')[0];
+        const link = `${base}?name=${encoded}`;
+        document.getElementById('wishLink').href = link;
+        document.getElementById('generatedLink').classList.remove('hidden');
+      }
+    }
+
+    function showWish(name) {
+      document.getElementById('inputSection').classList.add('hidden');
+      document.getElementById('wish').classList.remove('hidden');
+      document.getElementById('nameTitle').innerText = `Happy Birthday, ${name}!`;
+
+      const messages = [
+        "Happy Birthday to my officially licensed jogra partner! 😜",
+        "Tui chara amar kunu din complete lage na —",
+        "Jogra kori, abar ek second e mishi jai.",
+        "Ami chai tui amar loge always oula jogra kor, but valo o bashish! 😂",
+        "May your day be full of cake, gifts, and no fight with me (at least today)! 💝"
+      ];
+
+      const messageContainer = document.getElementById('message');
+      messages.forEach((msg, i) => {
+        const p = document.createElement('p');
+        p.textContent = msg;
+        p.className = 'message-line';
+        p.style.animationDelay = `${i * 1.2}s`;
+        messageContainer.appendChild(p);
+      });
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get('name');
+    if (name) {
+      showWish(decodeURIComponent(name));
+    }
+  </script>
+</body>
+</html>
