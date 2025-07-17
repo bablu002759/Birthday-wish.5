@@ -1,0 +1,10 @@
+function generateLink() {
+  const name = document.getElementById('nameInput').value.trim();
+  if (name) {
+    const encoded = encodeURIComponent(name);
+    const base = window.location.href.split('?')[0];
+    const link = `${base}?name=${encoded}`;
+    document.getElementById('wishLink').href = link;
+    document.getElementById('generatedLink').classList.remove('hidden');
+  }
+}
